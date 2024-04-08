@@ -1,6 +1,7 @@
 return {
   "williamboman/mason.nvim",
   dependencies = {
+    "hrsh7th/cmp-nvim-lsp",
     "williamboman/mason-lspconfig.nvim",
     "WhoIsSethDaniel/mason-tool-installer.nvim",
   },
@@ -13,7 +14,7 @@ return {
     local mason_lspconfig = require("mason-lspconfig")
     -- import mason-tool-installer
     local mason_tool_installer = require("mason-tool-installer")
-
+    local cmp_nvim_lsp = require("cmp_nvim_lsp")
     -- enable mason and configure icons
     mason.setup({
       ui = {
@@ -33,11 +34,10 @@ return {
         "cssls",
         "tailwindcss",
         "svelte",
-        "emmet_ls",
         "pyright",
       },
     })
-
+    local capabilities = cmp_nvim_lsp.default_capabilities()
     mason_lspconfig.setup_handlers({
       -- default handler for installed servers
       function(server_name)
@@ -65,13 +65,6 @@ return {
         lspconfig["graphql"].setup({
           capabilities = capabilities,
           filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        })
-      end,
-      ["emmet_ls"] = function()
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
         })
       end,
     })
